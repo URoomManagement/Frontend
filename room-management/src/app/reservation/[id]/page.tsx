@@ -3,7 +3,7 @@
 import Navbar from "@/components/navbar/Navbar";
 import { useParams } from "next/navigation";
   
-const User = () => {
+const Reservation = () => {
     const params = useParams();
     return (
         <>
@@ -17,5 +17,5 @@ const User = () => {
     );
 }
 
-export default User;
+export default Reservation;
   
