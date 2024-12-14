@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -10,8 +11,29 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/AuthContext"
+import { login } from "@/lib/auth"
 
 export function LoginForm() {
+  const router = useRouter();
+  const { setUser } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const user = await login(email, password);
+      setUser(user);
+      router.push("/");
+    } catch (error) {
+      setError("Invalid email or password");
+    }
+  };
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
