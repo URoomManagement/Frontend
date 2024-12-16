@@ -11,9 +11,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import DatePickerWithRange from "@/components/daterangepicker/DaterangePicker";
-import { addDays } from "date-fns"
 import { useState } from "react"
 import { DateRange } from "react-day-picker"
+import createReservationByRoomAndId from "@/fetch/createReservationByRoomAndUser";
+import convertTime from "@/util/convertTime";
+import { useToast } from "@/hooks/use-toast";
 
 interface Event {
   title: string;
@@ -23,19 +25,38 @@ interface Event {
 
 interface ReservationDialogProps {
   eventList: Event[];
+  roomId: number;
 }
 
-const ReservationDialog: React.FC<ReservationDialogProps> = ({ eventList }) => {
+interface ReservationRequest{
+  roomId: number;
+  userId: number;
+  purpose: string;
+  startedAt: Date;
+  endedAt:Date;
+}
+
+const ReservationDialog: React.FC<ReservationDialogProps> = ({ eventList, roomId }) => {
   const [ purpose, setPurpose ] = useState("");
   const [ date, setDate ] = useState<DateRange | undefined>(undefined);
   const [isOpen, setIsOpen ] = useState(false);
+  const { toast } = useToast();
   
   const handleProposeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPurpose(event.target.value);
   };
+
   const handleReservedDialog = () => {
-    alert("It is already reserved!");
+    const reservation: ReservationRequest = {
+      roomId,
+      userId: 1,
+      purpose,
+      startedAt: convertTime(date!.from as Date),
+      endedAt: convertTime(date!.to as Date),
+    };
+    createReservationByRoomAndId(reservation)
     setIsOpen(false);
+    window.location.reload();
   };
 
   return (

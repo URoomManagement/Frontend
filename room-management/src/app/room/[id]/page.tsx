@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 
 import ReservationDialog from "./reservation";
 import fetchReservationByRoom from "@/fetch/fetchReservationByRoom";
+import locationMapper from "@/util/locationMapper";
 
 interface Event {
   title: string;
@@ -30,19 +31,6 @@ export interface Reservations {
   roomInfo: string; 
   reservations: Reservation[];
 }
-
-const mapper = (location: string | undefined): string => {
-  switch (location) {
-    case "FIFTH_FLOOR":
-      return "5F";
-    case "SIXTH_FLOOR":
-      return "6F";
-    case "DATA_STATION":
-      return "DS";
-    default:
-      return "";
-  }
-};
 
 const localizer = momentLocalizer(moment);
 
@@ -79,10 +67,10 @@ const RoomPage = () => {
         <div className="flex justify-between mb-10">
           <div>
             <p>Room {reservations?.roomName}</p>
-            <p>Location : {mapper(reservations?.roomLocation)}</p>
+            <p>Location : {locationMapper(reservations?.roomLocation)}</p>
             <p>Info : {reservations?.roomInfo}</p>
           </div>
-          <ReservationDialog eventList={myEventsList}/>
+          <ReservationDialog eventList={myEventsList} roomId={Number(id)}/>
         </div>
         <div className="">
           <Calendar

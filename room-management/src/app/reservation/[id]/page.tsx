@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button";
 import deleteReservationById from "@/fetch/deleteReservationById";
+import locationMapper from "@/util/locationMapper";
 
 interface Reservation{
     id: number,
@@ -39,19 +40,6 @@ interface Reservation{
     roomInfo: string,
     userName: string,
 }
-
-const mapper = (location: string | undefined): string => {
-    switch (location) {
-      case "FIFTH_FLOOR":
-        return "5F";
-      case "SIXTH_FLOOR":
-        return "6F";
-      case "DATA_STATION":
-        return "DS";
-      default:
-        return "";
-    }
-};
 
 interface AlertDialogProps {
     reservationId: number;
@@ -127,9 +115,9 @@ const Reservation = () => {
                             <TableRow key={reservation.id}>
                                 <TableCell className="font-medium">{reservation.roomName}</TableCell>
                                 <TableCell>{reservation.purpose}</TableCell>
-                                <TableCell>{mapper(reservation.roomLocation)}</TableCell>
-                                <TableCell>{reservation.startedAt.toISOString().split('T')[0]}</TableCell>
-                                <TableCell>{reservation.endedAt.toISOString().split('T')[0]}</TableCell>
+                                <TableCell>{locationMapper(reservation.roomLocation)}</TableCell>
+                                <TableCell>{reservation.startedAt.toLocaleString().split(',')[0]}</TableCell>
+                                <TableCell>{reservation.endedAt.toLocaleString().split(',')[0]}</TableCell>
                                 <TableCell>
                                     <CancelAlertDialog reservationId={reservation.id} onConfirm={handleCancel} />
                                 </TableCell>

@@ -38,29 +38,37 @@ const DatePickerWithRange = ({
   }));
 
   const handleDateSelect = (newRange: DateRange | undefined) => {
-    console.log(newRange);
     if (!newRange) {
-      console.log("here3");
       return;
     }
+
+    const normalizedRange: DateRange | undefined = {
+      from: newRange.from
+        ? new Date(newRange.from.setHours(0, 0, 0, 0))
+        : undefined,
+      to: newRange.to
+        ? new Date(newRange.to.setHours(23, 59, 59, 999))
+        : newRange.from
+        ? new Date(newRange.from.setHours(23, 59, 59, 999))
+        : undefined,
+    };
+
     const hasOverlap = disabledDates.some((disabledRange) => {
       const disabledStart = disabledRange.from;
       const disabledEnd = disabledRange.to;
   
       return (
-        (newRange.from && newRange.from <= disabledEnd) &&
-        (newRange.to && newRange.to >= disabledStart) 
+        (normalizedRange?.from && normalizedRange.from <= disabledEnd) &&
+        (normalizedRange?.to && normalizedRange.to >= disabledStart) 
       );
     });
   
     if (hasOverlap) {
-      console.log("here2");
       alert("The selected range includes disabled dates!");
       setDate(undefined);
       return;
     }
-    console.log("here");
-    setDate(newRange);
+    setDate(normalizedRange);
   };
   
   return (
