@@ -80,6 +80,14 @@ const RoomPage = () => {
               endAccessor="end"
               views={["month"]}
               style={{ height: 500 }}
+              eventPropGetter={() => ({
+                style: {
+                  backgroundColor: "#4B5563", 
+                  color: "white", 
+                  borderRadius: "4px", 
+                  border: "none", 
+                },
+              })}
           />
         </div>
       </div>

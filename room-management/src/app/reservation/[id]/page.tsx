@@ -56,7 +56,7 @@ const CancelAlertDialog: React.FC<AlertDialogProps> = ({ reservationId, onConfir
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                 <AlertDialogDescription>
                     This action cannot be undone. This will permanently delete the reservation.
                 </AlertDialogDescription>
@@ -102,23 +102,23 @@ const Reservation = () => {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                        <TableHead className="w-[100px]">Room</TableHead>
-                        <TableHead>Purpose</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Start</TableHead>
-                        <TableHead>End</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead className="w-[100px] text-center">Room</TableHead>
+                        <TableHead className="text-center">Purpose</TableHead>
+                        <TableHead className="text-center">Location</TableHead>
+                        <TableHead className="text-center">Start</TableHead>
+                        <TableHead className="text-center">End</TableHead>
+                        <TableHead className="text-center">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {reservations.map((reservation) => (
                             <TableRow key={reservation.id}>
-                                <TableCell className="font-medium">{reservation.roomName}</TableCell>
+                                <TableCell className="font-medium text-center">{reservation.roomName}</TableCell>
                                 <TableCell>{reservation.purpose}</TableCell>
-                                <TableCell>{locationMapper(reservation.roomLocation)}</TableCell>
-                                <TableCell>{reservation.startedAt.toLocaleString().split(',')[0]}</TableCell>
-                                <TableCell>{reservation.endedAt.toLocaleString().split(',')[0]}</TableCell>
-                                <TableCell>
+                                <TableCell className="text-center">{locationMapper(reservation.roomLocation)}</TableCell>
+                                <TableCell className="text-center">{reservation.startedAt.toLocaleString().split(',')[0]}</TableCell>
+                                <TableCell className="text-center">{reservation.endedAt.toLocaleString().split(',')[0]}</TableCell>
+                                <TableCell className="text-center">
                                     <CancelAlertDialog reservationId={reservation.id} onConfirm={handleCancel} />
                                 </TableCell>
                             </TableRow>

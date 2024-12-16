@@ -62,13 +62,13 @@ const ReservationDialog: React.FC<ReservationDialogProps> = ({ eventList, roomId
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Reservation</Button>
+        <Button className="border-2 border-gray-800" variant="outline">Reserve</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Reservation</DialogTitle>
           <DialogDescription>
-            Reserve
+            Specify the date and purpose! 
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
