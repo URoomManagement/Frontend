@@ -7,6 +7,9 @@ import {
   } from "@/components/ui/toggle-group"
 import Link from "next/link";
 import fetchRoomsByLocation from "@/fetch/fetchRoomByLocation";
+import Image from "next/image";
+import images from "@/assets";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 interface Room {
     id: number;
@@ -28,17 +31,24 @@ const Reservation = () => {
         }
         loadRooms();
     }, [value]);
+
+    const getImage = () => {
+        if (value === "FIFTH_FLOOR") return images.fifth_floor;
+        if (value === "SIXTH_FLOOR") return images.sixth_floor;
+        return null;
+    };
+    const image = getImage();
     return (
         <div>
             <Navbar />
-            <div className="pt-20">
+            <div className="py-20 mx-[200px]">
                 <div>
                     <ToggleGroup 
                         type="single" 
                         onValueChange={(value) =>{
                             setValue(value);
                         }}
-                        defaultValue="5F"
+                        defaultValue="FIFTH_FLOOR"
                         className="gap-4"
                     >
                         <ToggleGroupItem value="FIFTH_FLOOR" className="text-xl">5F</ToggleGroupItem>
@@ -46,21 +56,31 @@ const Reservation = () => {
                         <ToggleGroupItem value="DATA_STATION" className="text-xl">DS</ToggleGroupItem>
                     </ToggleGroup>
                 </div>
-                <div className="pt-20">
+                <div className="">
+                    {image && (
+                        <div className="flex justify-center">
+                        <Image
+                            src={image}
+                            alt={value}
+                            width={640}
+                            height={4800}
+                            className="rounded-md"
+                        />
+                        </div>
+                    )}
                     <ul className="space-y-2">
-                    {rooms?.map((room) => (
-                        <li
-                            key={room.id}
-                            className={"px-4 py-2 rounded-md bg-green-200 text-green-800"}
-                        >
-                            <Link href={`/room/${room.id}`} className="block">
-                                <p>
-                                    <strong>Room {room.room}:</strong> {room.name}
-                                </p>
-                                <p>{room.info}</p>
-                            </Link>
-                        </li>
-                    ))}
+                        {rooms?.map((room) => (
+                            <li key={room.id}>
+                                <Link href={`/room/${room.id}`} className="block">
+                                    <Card className="p-2 hover:shadow-lg hover:bg-gray-100">
+                                        <CardHeader>
+                                            <CardTitle>Room {room.name}</CardTitle>
+                                            <CardDescription>{room.info}</CardDescription>
+                                        </CardHeader>
+                                    </Card>
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>

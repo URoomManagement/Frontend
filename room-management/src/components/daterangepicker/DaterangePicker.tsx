@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 
 interface Event {
   title: string;
@@ -36,6 +36,8 @@ const DatePickerWithRange = ({
     from: event.start,
     to: event.end,
   }));
+
+  const { toast } = useToast();
 
   const handleDateSelect = (newRange: DateRange | undefined) => {
     if (!newRange) {
@@ -64,7 +66,11 @@ const DatePickerWithRange = ({
     });
   
     if (hasOverlap) {
-      alert("The selected range includes disabled dates!");
+      toast({
+        title: "Illegal Date Range",
+        description: "Current data range includes reserved date",
+        duration:2000,
+      })
       setDate(undefined);
       return;
     }
