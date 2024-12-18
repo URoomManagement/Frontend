@@ -6,44 +6,42 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { loginSchema } from "@/lib/validation"
-import type { LoginFormData } from "@/lib/validation"
+import { userProfileSchema } from "@/lib/validation"
+import type { UserProfileData } from "@/lib/validation"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/AuthContext"
-import { login } from "@/lib/auth"
+import { register } from "@/lib/auth"
 import { useToast } from "@/hooks/use-toast"
 
-export function LoginForm() {
+export function RegisterForm() {
   const router = useRouter()
-  const { setUser } = useAuth()
   const { toast } = useToast()
-
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  
+  const form = useForm<UserProfileData>({
+    resolver: zodResolver(userProfileSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
   })
 
-  async function onSubmit(data: LoginFormData) {
+  async function onSubmit(data: UserProfileData) {
     try {
       form.clearErrors()
-      const user = await login(data.email, data.password)
-      setUser(user)
+      await register(data)
       toast({
         title: "Success",
-        description: "Logged in successfully.",
+        description: "Account created successfully. Please login.",
       })
-      router.push("/reserve")
+      router.push("/login")
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Invalid email or password.",
+        description: "Registration failed. Please try again.",
       })
       form.setError("root", { 
-        message: "Invalid email or password" 
+        message: "Registration failed. Please try again." 
       })
     }
   }
@@ -51,9 +49,9 @@ export function LoginForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Login</CardTitle>
+        <CardTitle>Create an account</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your details below to create your account
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -61,12 +59,25 @@ export function LoginForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="m@example.com" {...field} />
+                    <Input type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,9 +107,9 @@ export function LoginForm() {
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? (
-                "Logging in..."
+                "Creating account..."
               ) : (
-                "Login"
+                "Register"
               )}
             </Button>
           </form>
@@ -106,4 +117,4 @@ export function LoginForm() {
       </CardContent>
     </Card>
   )
-}
+} 
