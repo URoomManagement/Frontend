@@ -1,8 +1,8 @@
 "use client"
 
 import { useAuth } from "@/contexts/AuthContext"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useRouter, usePathname } from "next/navigation"
+import { useEffect } from "react";
 
 interface ProtectedLayoutProps {
   children: React.ReactNode
@@ -13,9 +13,11 @@ export function ProtectedLayout({
   children,
   redirectTo = "/login" 
 }: ProtectedLayoutProps) {
-  const { user, isLoading } = useAuth()
-  const router = useRouter()
-
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname()
+  if(pathname === "/login") return <>{children}</>
+  
   useEffect(() => {
     if (!isLoading && !user) {
       router.push(redirectTo)

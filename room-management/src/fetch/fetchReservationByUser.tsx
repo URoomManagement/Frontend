@@ -8,6 +8,7 @@ const fetchRoomWithReservations = async (userId: string) => {
         headers: {
           "Content-Type": "application/json", 
         },
+        credentials: "include",
       });
   
       if (!response.ok) {

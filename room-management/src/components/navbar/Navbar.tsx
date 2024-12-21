@@ -3,6 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/AuthContext"
 import { logout } from "@/lib/auth"
+import { TbCircleLetterU } from "react-icons/tb";
 import { useToast } from "@/hooks/use-toast"
 import {
   DropdownMenu,
@@ -40,10 +41,10 @@ export default function Component() {
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-14 items-center">
           <Link href="#" className="flex items-center" prefetch={false}>
-            <MountainIcon className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
+            <TbCircleLetterU size={26} />
+            <span className="p-3">URoom</span>
           </Link>
-          <nav className="hidden md:flex gap-4">
+          <nav className="hidden md:flex gap-4 absolute left-1/2 transform -translate-x-1/2">
             <Link
               href="/reserve"
               className="font-medium flex items-center text-sm transition-colors hover:underline"
@@ -77,24 +78,5 @@ export default function Component() {
         </div>
       </div>
     </nav>
-  )
-}
-
-function MountainIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
   )
 }

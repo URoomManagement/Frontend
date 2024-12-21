@@ -27,7 +27,7 @@ export const loginSchema = z.object({
 })
 
 export const userProfileSchema = z.object({
-  username: usernameSchema,
+  name: usernameSchema,
   email: emailSchema,
   password: strongPasswordSchema
 })

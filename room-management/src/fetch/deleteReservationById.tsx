@@ -8,6 +8,7 @@ const deleteRoomById = async (reservationId: number) => {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
           });
       
           if (!response.ok) {

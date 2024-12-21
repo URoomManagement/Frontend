@@ -16,6 +16,7 @@ const createReservationByRoomAndId = async (reservation: ReservationRequest) => 
         "Content-Type": "application/json",
       },
       body: JSON.stringify(reservation),
+      credentials: "include",
     });
 
     if (!response.ok) {
