@@ -43,6 +43,7 @@ const RoomPage = () => {
 
   const [reservations, setReservations] = useState<Reservations>();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     async function loadReservations() {
@@ -58,11 +59,17 @@ const RoomPage = () => {
           purpose:reservation.purpose,
         }));
         setMyEventsList(events);
-      } catch (err) {
+        setError(null);
+      } catch (err:any) {
+        setError(err);
       }
     }
     loadReservations();
   }, []);
+
+  if(error){
+    throw error;
+  }
 
   const onSelectEvent = (event: Event) => {
     setSelectedEvent(event);
