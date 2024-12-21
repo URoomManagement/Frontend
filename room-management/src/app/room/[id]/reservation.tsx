@@ -15,7 +15,7 @@ import { useState } from "react"
 import { DateRange } from "react-day-picker"
 import createReservationByRoomAndId from "@/fetch/createReservationByRoomAndUser";
 import convertTime from "@/util/convertTime";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Event {
   title: string;
@@ -39,17 +39,28 @@ interface ReservationRequest{
 const ReservationDialog: React.FC<ReservationDialogProps> = ({ eventList, roomId }) => {
   const [ purpose, setPurpose ] = useState("");
   const [ date, setDate ] = useState<DateRange | undefined>(undefined);
-  const [isOpen, setIsOpen ] = useState(false);
-  const { toast } = useToast();
+  const [ isOpen, setIsOpen ] = useState(false);
+  const { user } = useAuth();
+  const [error, setError] = useState<string | null>(null);
   
   const handleProposeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPurpose(event.target.value);
   };
 
   const handleReservedDialog = () => {
+    if (!date?.from || !date?.to) {
+      setError("Wrong Input!!");
+      return;
+    }
+
+    if (!purpose.trim()) {
+      setError("Wrong Input!!");
+      return;
+    }
+    setError(null);
     const reservation: ReservationRequest = {
       roomId,
-      userId: 1,
+      userId: user!.id,
       purpose,
       startedAt: convertTime(date!.from as Date),
       endedAt: convertTime(date!.to as Date),
@@ -59,8 +70,14 @@ const ReservationDialog: React.FC<ReservationDialogProps> = ({ eventList, roomId
     window.location.reload();
   };
 
+  const handleDialogChange = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+    if (!isOpen) {
+      setError(null);
+    }
+  };
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
         <Button className="border-2 border-gray-800" variant="outline">Reserve</Button>
       </DialogTrigger>
@@ -94,6 +111,11 @@ const ReservationDialog: React.FC<ReservationDialogProps> = ({ eventList, roomId
               className="col-span-3 w-[250px]" />
           </div>
         </div>
+        {error && (
+          <p className="text-red-500 flex items-center justify-center text-center">
+            {error}
+          </p>
+        )}
         <DialogFooter>
           <Button 
             type="submit"

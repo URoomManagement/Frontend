@@ -8,6 +8,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect, useState } from "react";
 
 import ReservationDialog from "./reservation";
+import ReservationShowDialog from "./reservationShow";
 import fetchReservationByRoom from "@/fetch/fetchReservationByRoom";
 import locationMapper from "@/util/locationMapper";
 
@@ -15,6 +16,8 @@ interface Event {
   title: string;
   start: Date;
   end: Date;
+  id:number;
+  purpose:string;
 }
 
 export interface Reservation {
@@ -39,6 +42,7 @@ const RoomPage = () => {
   const id = String(params.id) ?? "";
 
   const [reservations, setReservations] = useState<Reservations>();
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   useEffect(() => {
     async function loadReservations() {
@@ -50,6 +54,8 @@ const RoomPage = () => {
           title: reservation.userName, 
           start: new Date(reservation.startedAt), 
           end: new Date(reservation.endedAt), 
+          id:reservation.id,
+          purpose:reservation.purpose,
         }));
         setMyEventsList(events);
       } catch (err) {
@@ -57,6 +63,10 @@ const RoomPage = () => {
     }
     loadReservations();
   }, []);
+
+  const onSelectEvent = (event: Event) => {
+    setSelectedEvent(event);
+  };
 
   const [myEventsList, setMyEventsList] = useState<Event[]>([]);
 
@@ -88,8 +98,12 @@ const RoomPage = () => {
                   border: "none", 
                 },
               })}
+              onSelectEvent={onSelectEvent}
           />
         </div>
+        {selectedEvent && (
+          <ReservationShowDialog event={selectedEvent} setEvent={setSelectedEvent} />
+        )}
       </div>
     </div>
   );
