@@ -32,6 +32,22 @@ export const userProfileSchema = z.object({
   password: strongPasswordSchema
 })
 
+export const userUpdateSchema = z.object({
+  email: emailSchema,
+  name: usernameSchema
+});
+
+export const passwordUpdateSchema = z.object({
+  currentPassword: z.string().min(6, "Password must be at least 6 characters"),
+  newPassword: z.string().min(6, "Password must be at least 6 characters").max(32, "Password is too long"),
+  confirmPassword: z.string()
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
 // Type inference for our schemas
 export type LoginFormData = z.infer<typeof loginSchema>
 export type UserProfileData = z.infer<typeof userProfileSchema>
+export type UserUpdateData = z.infer<typeof userUpdateSchema>;
+export type PasswordUpdateData = z.infer<typeof passwordUpdateSchema>;

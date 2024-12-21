@@ -1,5 +1,5 @@
 import { API_ROUTES } from '@/config/api'
-import type { UserProfileData } from "@/lib/validation"
+import type { PasswordUpdateData, UserProfileData, UserUpdateData } from "@/lib/validation"
 import type { User } from "@/types/user"
 
 export async function login(email: string, password: string): Promise<User> {
@@ -61,4 +61,46 @@ export async function register(data: UserProfileData) {
     console.error('Registration failed:', error);
     throw error;
   }
+}
+
+export async function updateUserProfile(userId: number, data: UserUpdateData) {
+  const response = await fetch(API_ROUTES.users.profile(userId), {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      id: userId,
+      ...data
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update profile');
+  }
+
+  return response.json();
+}
+
+export async function updatePassword(userId: number, data: PasswordUpdateData) {
+  const response = await fetch(API_ROUTES.users.password(userId), {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      id: userId,
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to update password');
+  }
+
+  return response.json();
 }
