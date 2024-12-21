@@ -48,7 +48,7 @@ const RoomPage = () => {
   useEffect(() => {
     async function loadReservations() {
       try {
-        const data = await fetchReservationByRoom(id);
+        const data = await fetchReservationByRoom(Number(id));
         setReservations(data);
 
         const events = data.reservations.map((reservation: Reservation) => ({

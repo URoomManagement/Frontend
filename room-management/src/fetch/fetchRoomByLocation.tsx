@@ -1,6 +1,7 @@
+import { API_ROUTES } from "@/config/api";
+
 const fetchRoomsByLocation = async(location:String) => {
-    const baseUrl = "http://localhost:8080/api/rooms/location"; 
-    const url = `${baseUrl}?location=${location}`;
+    const url = API_ROUTES.roomLocation(location);
     console.log(url);
     try {
       const response = await fetch(url, {
