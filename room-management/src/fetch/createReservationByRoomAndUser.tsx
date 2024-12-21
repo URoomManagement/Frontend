@@ -1,3 +1,5 @@
+import { API_ROUTES } from "@/config/api";
+
 interface ReservationRequest {
     roomId: number;
     userId: number;
@@ -7,7 +9,7 @@ interface ReservationRequest {
 }
   
 const createReservationByRoomAndId = async (reservation: ReservationRequest) => {
-  const url = "http://localhost:8080/api/reservations";
+  const url = API_ROUTES.reservation.create;
 
   try {
     const response = await fetch(url, {

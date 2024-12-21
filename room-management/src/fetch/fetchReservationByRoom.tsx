@@ -1,6 +1,7 @@
-const fetchRoomWithReservations = async (roomId: string) => {
-    const baseUrl = "http://localhost:8080/api/reservations/rooms"; 
-    const url = `${baseUrl}/${roomId}`; 
+import { API_ROUTES } from "@/config/api";
+
+const fetchRoomWithReservations = async (roomId: number) => {
+    const url = API_ROUTES.reservation.room(roomId); 
   
     try {
       const response = await fetch(url, {

@@ -8,5 +8,12 @@ export const API_ROUTES = {
   users: {
     profile: (id: number) => `${BASE_URL}/api/users/${id}`,
     password: (id: number) => `${BASE_URL}/api/users/${id}/password`
-  }
-} as const 
+  },
+  reservation:{
+    room:(id:number) => `${BASE_URL}/api/reservations/rooms/${id}`,
+    user:(id:number) => `${BASE_URL}/api/reservations/users/${id}`,
+    delete:(id:number) => `${BASE_URL}/api/reservations/${id}`,
+    create:`${BASE_URL}/api/reservations`
+  },
+  roomLocation: (name:String) => `${BASE_URL}/api/rooms/location?location=${name}`
+} as const

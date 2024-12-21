@@ -1,6 +1,7 @@
+import { API_ROUTES } from "@/config/api";
+
 const deleteRoomById = async (reservationId: number) => {
-    const baseUrl = "http://localhost:8080/api/reservations"; 
-    const url = `${baseUrl}/${reservationId}`; 
+    const url = API_ROUTES.reservation.delete(reservationId);
   
     try {
         const response = await fetch(url, {
