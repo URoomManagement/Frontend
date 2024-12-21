@@ -1,4 +1,4 @@
-const fetchRoomWithReservations = async (userId: string) => {
+const fetchRoomWithReservations = async (userId: number) => {
     const baseUrl = "http://localhost:8080/api/reservations/users"; 
     const url = `${baseUrl}/${userId}`; 
   

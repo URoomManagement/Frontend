@@ -29,6 +29,7 @@ import {
 import { Button } from "@/components/ui/button";
 import deleteReservationById from "@/fetch/deleteReservationById";
 import locationMapper from "@/util/locationMapper";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Reservation{
     id: number,
@@ -72,14 +73,13 @@ const CancelAlertDialog: React.FC<AlertDialogProps> = ({ reservationId, onConfir
   
 const Reservation = () => {
     const params = useParams();
+    const { user } = useAuth();
     const [ reservations, setReservations ] = useState<Reservation[]>([]);
 
-    // TODO
-    // Change the hardcode "1" to userid
     useEffect(() => {
         async function loadReservations() {
           try {
-            const data = await fetchReservationByUser("1"); // FIXME
+            const data = await fetchReservationByUser(user!.id); 
             setReservations(data);
           } catch (err) {
           }
