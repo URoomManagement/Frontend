@@ -75,13 +75,16 @@ const Reservation = () => {
     const params = useParams();
     const { user } = useAuth();
     const [ reservations, setReservations ] = useState<Reservation[]>([]);
+    const [error, setError] = useState<Error|null>(null);
 
     useEffect(() => {
         async function loadReservations() {
           try {
             const data = await fetchReservationByUser(user!.id); 
             setReservations(data);
+            setError(null);
           } catch (err) {
+            setError(err);
           }
         }
         loadReservations();
@@ -90,6 +93,10 @@ const Reservation = () => {
     const handleCancel=(reservationId:number) => {
         deleteReservationById(reservationId);
         window.location.reload();
+    }
+
+    if(error){
+        throw error;
     }
 
     return (

@@ -30,7 +30,6 @@ const fetchRoomWithReservations = async (roomId: string) => {
         reservations: transformedReservations,
       };
     } catch (error) {
-      console.error("Error fetching room with reservations:", error);
       throw error;
     }
   };

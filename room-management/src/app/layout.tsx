@@ -4,6 +4,7 @@ import { Providers } from "@/components/providers"
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import { ProtectedLayout } from "@/components/layouts/protected-layout"
+import ErrorBoundary from "@/error/errorBoundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <ProtectedLayout>
-            {children}
-          </ProtectedLayout>
+          <ErrorBoundary>
+            <ProtectedLayout>
+              {children}
+            </ProtectedLayout>
+          </ErrorBoundary>
         </Providers>
         <Toaster />
       </body>

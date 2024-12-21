@@ -54,7 +54,7 @@ export default function Component() {
               Home
             </Link>
             <Link
-              href="/reservation/1"
+              href="/reservation"
               className="font-medium flex items-center text-sm transition-colors hover:underline"
               prefetch={false}
             >
@@ -68,7 +68,7 @@ export default function Component() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href={`/users/${user?.id}`}>Profile</Link>
+                  <Link href={`/users`}>Profile</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
                   Logout
