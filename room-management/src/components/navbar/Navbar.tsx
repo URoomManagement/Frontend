@@ -1,7 +1,40 @@
 import Link from "next/link"
 import { CgProfile } from "react-icons/cg";
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/AuthContext"
+import { logout } from "@/lib/auth"
+import { useToast } from "@/hooks/use-toast"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Component() {
+  const router = useRouter()
+  const { setUser } = useAuth()
+  const { toast } = useToast()
+
+  // Handle logout function
+  const handleLogout = async () => {
+    try {
+      await logout()
+      setUser(null)
+      toast({
+        title: "Success",
+        description: "Logged out successfully.",
+      })
+      router.push("/login")
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to logout.",
+      })
+    }
+  }
+
   return (
     <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
       <div className="w-full max-w-7xl mx-auto px-4">
@@ -41,9 +74,19 @@ export default function Component() {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Link href="/users/1" prefetch={false}>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="focus:outline-none">
                 <CgProfile className="cursor-pointer" size={24} />
-            </Link>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/users/1">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
