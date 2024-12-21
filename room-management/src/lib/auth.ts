@@ -99,8 +99,8 @@ export async function updatePassword(userId: number, data: PasswordUpdateData) {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Failed to update password');
+    throw new Error(errorData.message);
   }
 
-  return response.json();
+  return null;
 }
