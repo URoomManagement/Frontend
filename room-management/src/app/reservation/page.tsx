@@ -83,7 +83,7 @@ const Reservation = () => {
             const data = await fetchReservationByUser(user!.id); 
             setReservations(data);
             setError(null);
-          } catch (err) {
+          } catch (err:any) {
             setError(err);
           }
         }
@@ -104,7 +104,7 @@ const Reservation = () => {
             <Navbar />
             <div className="pt-20 ml-20 mr-20">
                 <div className="mb-5">
-                    <h1> Your Reservations : </h1>
+                    <h1> My Reservations : </h1>
                 </div>
                 <Table>
                     <TableHeader>
