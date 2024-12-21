@@ -16,6 +16,7 @@ export default function Component() {
   const router = useRouter()
   const { setUser } = useAuth()
   const { toast } = useToast()
+  const { user } = useAuth()
 
   // Handle logout function
   const handleLogout = async () => {
@@ -67,7 +68,7 @@ export default function Component() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href="/users/1">Profile</Link>
+                  <Link href={`/users/${user?.id}`}>Profile</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
                   Logout

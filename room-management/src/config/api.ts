@@ -5,4 +5,8 @@ export const API_ROUTES = {
   register: `${BASE_URL}/api/users/register`,
   logout: `${BASE_URL}/api/auth/logout`,
   validate: `${BASE_URL}/api/auth/validate`,
+  users: {
+    profile: (id: number) => `${BASE_URL}/api/users/${id}`,
+    password: (id: number) => `${BASE_URL}/api/users/${id}/password`
+  }
 } as const 
