@@ -4,6 +4,7 @@ import { AuthTabs } from "@/components/auth/auth-tabs"
 import { useAuth } from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { TbCircleLetterU } from "react-icons/tb"
 
 export default function Page() {
   const { user, isLoading } = useAuth()
@@ -15,7 +16,6 @@ export default function Page() {
     }
   }, [user, isLoading, router])
 
-  // Show loading state while checking auth
   if (isLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
@@ -24,7 +24,6 @@ export default function Page() {
     )
   }
 
-  // Only show login form if user is not authenticated
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
       <AuthTabs />
