@@ -1,5 +1,5 @@
-import fifth_floor from './5f.png';
-import sixth_floor from './6f.png';
+import fifth_floor from './5F.png';
+import sixth_floor from './6F.png';
 
 const images = {
   fifth_floor,
