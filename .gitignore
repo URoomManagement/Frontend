@@ -52,3 +52,4 @@ next-env.d.ts
 *.sln
 *.sw?
 *.directory
+room-management/.env.production
