@@ -30,7 +30,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       const status = (this.state.error as any)?.status || "500"; 
       const message = this.state.error?.message || "A client-side error occurred.";
 
-      return <ErrorPage status={status} message={message} />;
+      return <ErrorPage message={message} />;
     }
     return this.props.children;
   }

@@ -1,0 +1,27 @@
+# Stage 1: Base image with dependencies
+FROM node:18-alpine AS base
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
+# Stage 2: Development image
+FROM base AS dev
+WORKDIR /app
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+
+# Stage 3: Production build
+FROM base AS build
+WORKDIR /app
+COPY . .
+ENV NEXT_DISABLE_ESLINT=true
+RUN npm run build
+RUN next build
+
+# Stage 4: Production image
+FROM node:18-alpine AS prod
+WORKDIR /app
+COPY --from=build /app ./
+RUN npm install --omit=dev
+EXPOSE 3000
+CMD ["npm", "start"]
